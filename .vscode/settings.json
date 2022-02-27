@@ -1,0 +1,25 @@
+{
+    "files.associations": {
+        "cctype": "cpp",
+        "cmath": "cpp",
+        "cstdarg": "cpp",
+        "cstddef": "cpp",
+        "cstdio": "cpp",
+        "cstdlib": "cpp",
+        "cwchar": "cpp",
+        "cwctype": "cpp",
+        "type_traits": "cpp",
+        "limits": "cpp",
+        "*.tcc": "cpp",
+        "cinttypes": "cpp",
+        "cstdint": "cpp",
+        "typeinfo": "cpp",
+        "string": "cpp"
+    },
+    "C_Cpp.default.includePath": [
+        "/home/zhewu/.local/lib/python3.8/site-packages/pyarrow/include",
+        "/home/zhewu/.local/lib/python3.8/site-packages/pyarrow/include/arrow",
+        "/home/zhewu/.local/lib/python3.8/site-packages/pybind11/include",
+        "/usr/include/python3.8/"
+    ]
+}
