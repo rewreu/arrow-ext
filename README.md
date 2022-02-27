@@ -1,5 +1,17 @@
 # pyarrow-pybind
-This used https://github.com/vaexio/vaex-arrow-ext as a template
+This used https://github.com/vaexio/vaex-arrow-ext as a template. 
+
+# How to use
+
+## dependency
+numpy, pyarrow, pybind11
+
+## Install:
+1. clone this repo. Then `pip install .`
+2. `pip install git+https://github.com/rewreu/arrow-ext`
+
+## How to use
+See test/test.ipynb
 
 
 # Error compiling or at runtime

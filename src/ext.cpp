@@ -51,24 +51,17 @@ std::shared_ptr<arrow::DoubleArray> madd(std::shared_ptr<arrow::DoubleArray>& a,
 // ToDo
 // We don't need b here, only need a, let's create a return array from index i
 
-std::shared_ptr<arrow::Int32Array> getUnique(std::shared_ptr<arrow::StringArray>& a,
-                                        std::shared_ptr<arrow::Int32Array>& b) {
+std::shared_ptr<arrow::Int32Array> getUniqueRowIndex(std::shared_ptr<arrow::StringArray>& a) {
     std::set<std::string> UniqueStrings;
     std::set<std::string>::iterator it;
     long cnt;
-    cnt =0;
-
-    if (a->length() != b->length()) {
-        throw std::length_error("Arrays are not of equal length");
-    }
+    cnt=0;
     arrow::Int32Builder builder;
     arrow::Status status = builder.Resize(a->length());
     if (!status.ok()) {
         throw std::bad_alloc();
     }
     for(int i = 0; i < a->length(); i++) {
-        // builder.UnsafeAppend(a->Value(i) + b->Value(i));
-        // builder.AppendValues(a->Value(i) + b->Value(i));
         
         it = UniqueStrings.find(a->GetString(i));
         if(it != UniqueStrings.end()){
@@ -76,7 +69,7 @@ std::shared_ptr<arrow::Int32Array> getUnique(std::shared_ptr<arrow::StringArray>
         }
         else{
             UniqueStrings.insert(a->GetString(i));
-            builder.UnsafeAppend(b->Value(i));
+            builder.UnsafeAppend(i);
             cnt+=1;
         }
 
@@ -86,15 +79,45 @@ std::shared_ptr<arrow::Int32Array> getUnique(std::shared_ptr<arrow::StringArray>
     std::shared_ptr<arrow::Int32Array> array;
     arrow::Status st = builder.Finish(&array);
     return array;
-    // return b;
 }
+
+std::shared_ptr<arrow::BooleanArray> duplicatesFilter(std::shared_ptr<arrow::StringArray>& a) {
+    std::set<std::string> UniqueStrings;
+    std::set<std::string>::iterator it;
+    long cnt=0;
+    arrow::BooleanBuilder builder;
+    arrow::Status status = builder.Resize(a->length());
+    if (!status.ok()) {
+        throw std::bad_alloc();
+    }
+    for(int i = 0; i < a->length(); i++) {
+        
+        it = UniqueStrings.find(a->GetString(i));
+        if(it != UniqueStrings.end()){
+            builder.UnsafeAppend(false);
+
+        }
+        else{
+            UniqueStrings.insert(a->GetString(i));
+            builder.UnsafeAppend(true);
+            cnt+=1;
+        }
+
+        
+    }
+    status = builder.Resize(cnt);
+    std::shared_ptr<arrow::BooleanArray> array;
+    arrow::Status st = builder.Finish(&array);
+    return array;
+}
+
 
 
 PYBIND11_MODULE(ext, m) {
     arrow::py::import_pyarrow();
-    m.doc() = "vaex-arrow extension";
+    m.doc() = "arrow extension";
     m.def("madd", &madd, py::call_guard<py::gil_scoped_release>());
-    m.def("getUnique", &getUnique, py::call_guard<py::gil_scoped_release>());
-    
+    m.def("getUniqueRowIndex", &getUniqueRowIndex, py::call_guard<py::gil_scoped_release>());
+    m.def("duplicatesFilter", &duplicatesFilter, py::call_guard<py::gil_scoped_release>());
     m.def("sum", &sum, py::call_guard<py::gil_scoped_release>());
 }

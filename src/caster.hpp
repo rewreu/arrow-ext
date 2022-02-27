@@ -32,4 +32,7 @@ namespace pybind11 { namespace detail {
     template <>
     struct type_caster<std::shared_ptr<arrow::Int32Array>> : public gen_type_caster<arrow::Int32Array> {
     };
+    template <>
+    struct type_caster<std::shared_ptr<arrow::BooleanArray>> : public gen_type_caster<arrow::BooleanArray> {
+    };
 }} // namespace pybind11::detail
