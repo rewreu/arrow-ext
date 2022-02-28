@@ -48,27 +48,28 @@ std::shared_ptr<arrow::DoubleArray> madd(std::shared_ptr<arrow::DoubleArray>& a,
     return array;
 }
 
-// ToDo
-// We don't need b here, only need a, let's create a return array from index i
+
 
 std::shared_ptr<arrow::Int32Array> getUniqueRowIndex(std::shared_ptr<arrow::StringArray>& a) {
-    std::set<std::string> UniqueStrings;
-    std::set<std::string>::iterator it;
+    std::unordered_set<std::string> UniqueStrings;
+    // std::unordered_set<std::string>::iterator it;
     long cnt;
     cnt=0;
+    long lens = a->length();
+    std::string tmp;
     arrow::Int32Builder builder;
-    arrow::Status status = builder.Resize(a->length());
+    arrow::Status status = builder.Resize(lens);
     if (!status.ok()) {
         throw std::bad_alloc();
     }
-    for(int i = 0; i < a->length(); i++) {
-        
-        it = UniqueStrings.find(a->GetString(i));
-        if(it != UniqueStrings.end()){
+    for(long i = 0; i < lens; i++) {
+        tmp = a->GetString(i);
+        // it = UniqueStrings.find(a->GetString(i));
+        if(UniqueStrings.contains(tmp)){
 
         }
         else{
-            UniqueStrings.insert(a->GetString(i));
+            UniqueStrings.insert(tmp);
             builder.UnsafeAppend(i);
             cnt+=1;
         }
@@ -82,30 +83,32 @@ std::shared_ptr<arrow::Int32Array> getUniqueRowIndex(std::shared_ptr<arrow::Stri
 }
 
 std::shared_ptr<arrow::BooleanArray> duplicatesFilter(std::shared_ptr<arrow::StringArray>& a) {
-    std::set<std::string> UniqueStrings;
-    std::set<std::string>::iterator it;
-    long cnt=0;
+    std::unordered_set<std::string> UniqueStrings;
+    std::unordered_set<std::string>::iterator it;
+    // long cnt=0;
     arrow::BooleanBuilder builder;
-    arrow::Status status = builder.Resize(a->length());
+    long lens = a->length();
+    std::string tmp;
+    arrow::Status status = builder.Resize(lens);
     if (!status.ok()) {
         throw std::bad_alloc();
     }
-    for(int i = 0; i < a->length(); i++) {
+    for(long i = 0; i < lens; i++) {
         
-        it = UniqueStrings.find(a->GetString(i));
-        if(it != UniqueStrings.end()){
+        tmp = a->GetString(i);
+        if(UniqueStrings.contains(tmp)){
             builder.UnsafeAppend(false);
 
         }
         else{
-            UniqueStrings.insert(a->GetString(i));
+            UniqueStrings.insert(tmp);
             builder.UnsafeAppend(true);
-            cnt+=1;
+            // cnt+=1;
         }
 
         
     }
-    status = builder.Resize(cnt);
+    // status = builder.Resize(cnt);
     std::shared_ptr<arrow::BooleanArray> array;
     arrow::Status st = builder.Finish(&array);
     return array;

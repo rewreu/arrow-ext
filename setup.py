@@ -27,7 +27,7 @@ for ext in ext_modules:
     ext.library_dirs.extend(pa.get_library_dirs())
 
     if os.name == 'posix':
-        ext.extra_compile_args.append('-std=c++11')
+        ext.extra_compile_args.append('-std=c++2a')
         ext.extra_compile_args.append('-O3')
 
     # Try uncommenting the following line on Linux
