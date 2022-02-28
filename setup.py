@@ -28,6 +28,7 @@ for ext in ext_modules:
 
     if os.name == 'posix':
         ext.extra_compile_args.append('-std=c++11')
+        ext.extra_compile_args.append('-O3')
 
     # Try uncommenting the following line on Linux
     # if you get weird linker errors or runtime crashes
