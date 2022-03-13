@@ -3,8 +3,14 @@ channels:
   - conda-forge                     # We added a third party channel
   - defaults
 dependencies:
-  - pyarrow=7.0
   - pandas
-  - pip
   - python=3.9
-  - numpy
+  - jupyter
+  # have to use pip for pyarrow, numpy and pybind11, 
+  # `conda install` keep .so and header files in different locations 
+  # than `pip install`
+  - pip:
+    - pyarrow==7.0
+    - numpy
+    - pybind11
+

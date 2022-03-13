@@ -11,6 +11,7 @@
 #include <arrow/array/array_binary.h>
 
 
+
 #include<iostream>
 #include<set>
 #include<string>
@@ -114,6 +115,36 @@ std::shared_ptr<arrow::BooleanArray> duplicatesFilter(std::shared_ptr<arrow::Str
     return array;
 }
 
+std::shared_ptr<arrow::BooleanArray> duplicatesFilterInt(std::shared_ptr<arrow::Int32Array>& a) {
+    std::unordered_set<std::uint32_t> UniqueStrings;
+    arrow::BooleanBuilder builder;
+    long lens = a->length();
+    std::uint32_t tmp;
+    // arrow::Scalar scalar;
+    arrow::Status status = builder.Resize(lens);
+    if (!status.ok()) {
+        throw std::bad_alloc();
+    }
+    for(long i = 0; i < lens; i++) {
+        
+        tmp = a->Value(i);
+        if(UniqueStrings.contains(tmp)){
+            builder.UnsafeAppend(false);
+
+        }
+        else{
+            UniqueStrings.insert(tmp);
+            builder.UnsafeAppend(true);
+            // cnt+=1;get
+        }
+
+        
+    }
+    std::shared_ptr<arrow::BooleanArray> array;
+    arrow::Status st = builder.Finish(&array);
+    return array;
+}
+
 
 
 PYBIND11_MODULE(ext, m) {
@@ -122,5 +153,6 @@ PYBIND11_MODULE(ext, m) {
     m.def("madd", &madd, py::call_guard<py::gil_scoped_release>());
     m.def("getUniqueRowIndex", &getUniqueRowIndex, py::call_guard<py::gil_scoped_release>());
     m.def("duplicatesFilter", &duplicatesFilter, py::call_guard<py::gil_scoped_release>());
+    m.def("duplicatesFilterInt", &duplicatesFilterInt, py::call_guard<py::gil_scoped_release>());
     m.def("sum", &sum, py::call_guard<py::gil_scoped_release>());
 }

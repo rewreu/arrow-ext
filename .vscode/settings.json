@@ -58,13 +58,18 @@
         "thread": "cpp",
         "typeindex": "cpp",
         "valarray": "cpp",
-        "variant": "cpp",
+        "variant": "cpp",        // "/home/zhewu/.local/lib/python3.8/site-packages/pyarrow/include",
+        // "/home/zhewu/.local/lib/python3.8/site-packages/pyarrow/include/arrow",
+        // "/home/zhewu/.local/lib/python3.8/site-packages/pybind11/include",
         "bit": "cpp"
     },
     "C_Cpp.default.includePath": [
-        "/home/zhewu/.local/lib/python3.8/site-packages/pyarrow/include",
-        "/home/zhewu/.local/lib/python3.8/site-packages/pyarrow/include/arrow",
-        "/home/zhewu/.local/lib/python3.8/site-packages/pybind11/include",
-        "/usr/include/python3.8/"
+        // "/home/zhewu/.local/lib/python3.8/site-packages/pyarrow/include",
+        // "/home/zhewu/.local/lib/python3.8/site-packages/pyarrow/include/arrow",
+        // "/home/zhewu/.local/lib/python3.8/site-packages/pybind11/include",
+        "~/miniconda3/envs/arrowdev/lib/python3.9/site-packages/pyarrow/include",
+        "~/miniconda3/envs/arrowdev/lib/python3.9/site-packages/pyarrow/include/arrow",
+        "~/miniconda3/envs/arrowdev/lib/python3.9/site-packages/pybind11/include",
+        "~/miniconda3/envs/arrowdev/include/python3.9/"
     ]
 }

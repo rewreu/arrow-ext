@@ -10,8 +10,18 @@ numpy, pyarrow, pybind11
 1. clone this repo. Then `pip install .`
 2. `pip install git+https://github.com/rewreu/arrow-ext`
 
+## Development:
+1. clone this repo. Then `pip install .`
+2. conda env create -f setup/environment.yml 
+
+## Build whl file
+```
+python3 setup.py bdist_wheel --universal
+```
+
 ## How to use
 See test/test.ipynb
+
 
 
 # Error compiling or at runtime
