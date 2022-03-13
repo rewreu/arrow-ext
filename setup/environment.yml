@@ -1,0 +1,10 @@
+name: arrowdev
+channels:
+  - conda-forge                     # We added a third party channel
+  - defaults
+dependencies:
+  - pyarrow=7.0
+  - pandas
+  - pip
+  - python=3.9
+  - numpy
